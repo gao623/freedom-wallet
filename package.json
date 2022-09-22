@@ -1,0 +1,25 @@
+{
+  "name": "freedom_wallet",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "antd": "4.21.7",
+    "ethereumTools": "https://ghproxy.com/https://github.com/gao623/ethereumTools.git",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "4.0.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "homepage": "https://github.com/gao623/freedom-wallet.git",
+  "browserslist": [
+    ">0.2%",
+   "not dead",
+   "not op_mini all"
+ ]
+}
