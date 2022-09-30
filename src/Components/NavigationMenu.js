@@ -4,30 +4,35 @@ import {
   SettingOutlined,
   SendOutlined,
   TransactionOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-  UserOutlined,
-  PieChartOutlined,
 } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import { Breadcrumb, Layout, Divider, Menu, Switch } from 'antd';
+import { Layout, Divider, Menu, Switch } from 'antd';
 import React, { useState } from 'react';
 import DecoderRawTransaction from './DecoderRawTransaction.js';
 import DecoderTransactionData from './DecoderTransactionData.js';
 
-const { Header, Content, Sider } = Layout;
+const { Header, Sider } = Layout;
+
+const themeDict = {
+  light: "light",
+  dark: "dark",
+}
+const switchModeDict = {
+  vertical: "vertical",
+  inline: "inline",
+}
 
 export default function NavigationMenu() {
-  const [mode, setMode] = useState('inline');
-  const [theme, setTheme] = useState('light');
+  const [mode, setMode] = useState(switchModeDict.inline);
+  const [theme, setTheme] = useState(themeDict.light);
   const [subPage, setSubPage] = useState(<></>);
 
-  const changeMode = (value) => {
-    setMode(value ? 'vertical' : 'inline');
+  const onChangeMode = (value) => {
+    setMode(value ? switchModeDict.vertical : switchModeDict.inline);
   };
 
-  const changeTheme = (value) => {
-    setTheme(value ? 'dark' : 'light');
+  const onChangeTheme = (value) => {
+    setTheme(value ? themeDict.light : themeDict.dark);
   };
 
   const keyDict = {
@@ -39,26 +44,26 @@ export default function NavigationMenu() {
     "DecoderTransactionData": "DecoderTransactionData"
   }
 
-  const pageDict = {
-    "Decode": {
-      key: "TransactionDecode",
-      icon: <TransactionOutlined />,
-      children: {
-        "RawData": {
-          // label:"RawData",
-          key:keyDict.DecoderRawTransaction,
-          icon: null,
-          children: null,
-        },
-        "InputData": {
-          // label:"InputData",
-          key:keyDict.DecoderTransactionData,
-          icon: null,
-          children: null,
-        },
-      },
-    }
-  }
+  // const pageDict = {
+  //   "Decode": {
+  //     key: "TransactionDecode",
+  //     icon: <TransactionOutlined />,
+  //     children: {
+  //       "RawData": {
+  //         // label:"RawData",
+  //         key:keyDict.DecoderRawTransaction,
+  //         icon: null,
+  //         children: null,
+  //       },
+  //       "InputData": {
+  //         // label:"InputData",
+  //         key:keyDict.DecoderTransactionData,
+  //         icon: null,
+  //         children: null,
+  //       },
+  //     },
+  //   }
+  // }
   const pageInfoDict = {
     "DecoderRawTransaction": <DecoderRawTransaction />,
     "DecoderTransactionData": <DecoderTransactionData />,
@@ -117,16 +122,19 @@ export default function NavigationMenu() {
   <Layout>
     <Header className="header">
       {/* <div className="logo" /> */}
-      <Switch onChange={changeMode} /> Change Mode
-        <Divider type="vertical" />
-        <Switch onChange={changeTheme} /> Change Style
+      {/* <Switch onChange={onChangeMode} /> Change Mode */}
+      <Switch checkedChildren={switchModeDict.vertical} unCheckedChildren={switchModeDict.inline} defaultChecked onChange={onChangeMode} />
+      <Divider type={switchModeDict.vertical} />
+      <Switch checkedChildren={themeDict.light} unCheckedChildren={themeDict.dark} defaultChecked onChange={onChangeTheme} />
+      {/* <Switch onChange={onChangeTheme} /> Change Style */}
     </Header>
     <Layout>
-      <Sider width={200} className="site-layout-background">
+    {/* <Sider width={200} className="site-layout-background"> */}
+      <Sider className="site-layout-background">
       <Menu
-        style={{
-          width: 256,
-        }}
+        // style={{
+        //   width: 256,
+        // }}
         defaultSelectedKeys={['Transaction']}
         defaultOpenKeys={['TransactionDecode']}
         mode={mode}
@@ -147,22 +155,22 @@ export default function NavigationMenu() {
 );
 
 // const NavigationMenu = () => {
-//   const [mode, setMode] = useState('inline');
-//   const [theme, setTheme] = useState('light');
+//   const [mode, setMode] = useState(switchModeDict.inline);
+//   const [theme, setTheme] = useState(themeDict.light);
 
-//   const changeMode = (value) => {
-//     setMode(value ? 'vertical' : 'inline');
+//   const onChangeMode = (value) => {
+//     setMode(value ? switchModeDict.vertical : switchModeDict.inline);
 //   };
 
-//   const changeTheme = (value) => {
-//     setTheme(value ? 'dark' : 'light');
+//   const onChangeTheme = (value) => {
+//     setTheme(value ? themeDict.dark : themeDict.light);
 //   };
 
 //   return (
 //     <>
-//       <Switch onChange={changeMode} /> Change Mode
-//       <Divider type="vertical" />
-//       <Switch onChange={changeTheme} /> Change Style
+//       <Switch onChange={onChangeMode} /> Change Mode
+//       <Divider type={switchModeDict.vertical} />
+//       <Switch onChange={onChangeTheme} /> Change Style
 //       <br />
 //       <br />
 //       <Menu
