@@ -1,3 +1,4 @@
+import 'antd/dist/reset.css';
 import {
   AppstoreOutlined,
   LinkOutlined,
@@ -5,11 +6,12 @@ import {
   SendOutlined,
   TransactionOutlined,
 } from '@ant-design/icons';
-import 'antd/dist/antd.css';
-import { Layout, Divider, Menu, Switch } from 'antd';
-import React, { useState } from 'react';
-import DecoderRawTransaction from './DecoderRawTransaction.js';
-import DecoderTransactionData from './DecoderTransactionData.js';
+import { Layout, Divider, Menu, Switch, Flex } from 'antd';
+import React from 'react';
+
+import RawTransactionDecoder from './RawTransactionDecoder.js';
+import TransactionInputDataDecoder from './TransactionInputDataDecoder.js';
+import BaseTxDecoder from './BaseTxDecoder.js';
 
 const { Header, Sider } = Layout;
 
@@ -23,9 +25,9 @@ const switchModeDict = {
 }
 
 export default function NavigationMenu() {
-  const [mode, setMode] = useState(switchModeDict.inline);
-  const [theme, setTheme] = useState(themeDict.light);
-  const [subPage, setSubPage] = useState(<></>);
+  const [mode, setMode] = React.useState(switchModeDict.inline);
+  const [theme, setTheme] = React.useState(themeDict.light);
+  const [subPage, setSubPage] = React.useState(<></>);
 
   const onChangeMode = (value) => {
     setMode(value ? switchModeDict.vertical : switchModeDict.inline);
@@ -40,33 +42,15 @@ export default function NavigationMenu() {
     "TransactionSend": "TransactionSend",
     "TransactionSendOnline": "TransactionSendOnline",
     "TransactionSendOffline": "TransactionSendOffline",
-    "DecoderRawTransaction": "DecoderRawTransaction",
-    "DecoderTransactionData": "DecoderTransactionData"
+    "RawTransactionDecoder": "RawTransactionDecoder",
+    "TransactionInputDataDecoder": "TransactionInputDataDecoder",
+    "BaseTxDecoder": "BaseTxDecoder",
   }
 
-  // const pageDict = {
-  //   "Decode": {
-  //     key: "TransactionDecode",
-  //     icon: <TransactionOutlined />,
-  //     children: {
-  //       "RawData": {
-  //         // label:"RawData",
-  //         key:keyDict.DecoderRawTransaction,
-  //         icon: null,
-  //         children: null,
-  //       },
-  //       "InputData": {
-  //         // label:"InputData",
-  //         key:keyDict.DecoderTransactionData,
-  //         icon: null,
-  //         children: null,
-  //       },
-  //     },
-  //   }
-  // }
   const pageInfoDict = {
-    "DecoderRawTransaction": <DecoderRawTransaction />,
-    "DecoderTransactionData": <DecoderTransactionData />,
+    "RawTransactionDecoder": <RawTransactionDecoder />,
+    "TransactionInputDataDecoder": <TransactionInputDataDecoder />,
+    "BaseTxDecoder": <BaseTxDecoder />,
   }
 
   const onClick = ({ item, key, keyPath, domEvent }) => {
@@ -74,12 +58,7 @@ export default function NavigationMenu() {
     setSubPage(pageInfoDict[key]);
   };
 
-  function getItem(label, key, icon, children, onHandleClick) {
-    // // <Menu.Item label={label} key={key} icon={icon} children={children} onClick={onHandleClick}>
-    // <Menu.Item label={label} key={key} icon={icon} children={children}>
-    //   <PieChartOutlined />
-    //   <span>label</span>
-    // </Menu.Item>
+  function getItem(label, key, icon, children) {
     return {
       key,
       icon,
@@ -88,16 +67,6 @@ export default function NavigationMenu() {
     };
   }
 
-  // function getItems(label, itemDict) {
-  //   let children = [];
-  //   if (!itemDict.children || !itemDict.children.length) {
-  //     return getItem(label, itemDict.key, itemDict.icon);
-  //   }
-  //   children.push(getItem(label, itemDict.key, itemDict.icon))
-  //   return getItem(label, itemDict.key, itemDict.icon, itemDict);
-  //   (itemDict)
-  // }
-
   const items = [
     getItem('Transaction', keyDict.Transaction, <AppstoreOutlined />, [
       getItem('Send', keyDict.TransactionSend, <SendOutlined />, [
@@ -105,8 +74,9 @@ export default function NavigationMenu() {
         getItem('send Offline', keyDict.TransactionSendOffline),
       ]),
       getItem('Decode', keyDict.TransactionDecode, <TransactionOutlined />, [
-        getItem("RawData", keyDict.DecoderRawTransaction, <SettingOutlined />),
-        getItem("InputData", keyDict.DecoderTransactionData, <SettingOutlined />),
+        getItem("RawData", keyDict.RawTransactionDecoder, <SettingOutlined />),
+        getItem("InputData", keyDict.TransactionInputDataDecoder, <SettingOutlined />),
+        getItem("schema", keyDict.BaseTxDecoder, <SettingOutlined />),
       ]),
     ]),
     getItem(
@@ -119,72 +89,26 @@ export default function NavigationMenu() {
   ];
 
   return (
-  <Layout>
-    <Header className="header">
-      {/* <div className="logo" /> */}
-      {/* <Switch onChange={onChangeMode} /> Change Mode */}
-      <Switch checkedChildren={switchModeDict.vertical} unCheckedChildren={switchModeDict.inline} defaultChecked onChange={onChangeMode} />
-      <Divider type={switchModeDict.vertical} />
-      <Switch checkedChildren={themeDict.light} unCheckedChildren={themeDict.dark} defaultChecked onChange={onChangeTheme} />
-      {/* <Switch onChange={onChangeTheme} /> Change Style */}
-    </Header>
-    <Layout>
-    {/* <Sider width={200} className="site-layout-background"> */}
-      <Sider className="site-layout-background">
-      <Menu
-        // style={{
-        //   width: 256,
-        // }}
-        defaultSelectedKeys={['Transaction']}
-        defaultOpenKeys={['TransactionDecode']}
-        mode={mode}
-        theme={theme}
-        items={items}
-        onClick={onClick}
-      />
-      </Sider>
-      <Layout
-        // style={{
-        //   padding: '0 24px 24px',
-        // }}
-      >
+    <>
+      <Header className="header">
+        {/* <div className="logo" /> */}
+        <Switch checkedChildren={switchModeDict.vertical} unCheckedChildren={switchModeDict.inline} defaultChecked onChange={onChangeMode} />
+        <Divider type={switchModeDict.vertical} />
+        <Switch checkedChildren={themeDict.light} unCheckedChildren={themeDict.dark} defaultChecked onChange={onChangeTheme} />
+      </Header>
+      <Flex gap="small" style={{ width: '100%', height: '100%' }}>
+        <Sider className="site-layout-background">
+          <Menu
+            defaultSelectedKeys={['Transaction']}
+            defaultOpenKeys={['TransactionDecode']}
+            mode={mode}
+            theme={theme}
+            items={items}
+            onClick={onClick}
+          />
+        </Sider>
         {subPage}
-      </Layout>
-    </Layout>
-  </Layout>
-);
-
-// const NavigationMenu = () => {
-//   const [mode, setMode] = useState(switchModeDict.inline);
-//   const [theme, setTheme] = useState(themeDict.light);
-
-//   const onChangeMode = (value) => {
-//     setMode(value ? switchModeDict.vertical : switchModeDict.inline);
-//   };
-
-//   const onChangeTheme = (value) => {
-//     setTheme(value ? themeDict.dark : themeDict.light);
-//   };
-
-//   return (
-//     <>
-//       <Switch onChange={onChangeMode} /> Change Mode
-//       <Divider type={switchModeDict.vertical} />
-//       <Switch onChange={onChangeTheme} /> Change Style
-//       <br />
-//       <br />
-//       <Menu
-//         style={{
-//           width: 256,
-//         }}
-//         defaultSelectedKeys={['Transaction']}
-//         defaultOpenKeys={['TransactionDecode']}
-//         mode={mode}
-//         theme={theme}
-//         items={items}
-//       />
-//     </>
-//   );
+      </Flex>
+    </>
+  );
 };
-
-// export default NavigationMenu;

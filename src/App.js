@@ -1,5 +1,3 @@
-import React from 'react';
-import DecoderRawTransaction from './Components/DecoderRawTransaction';
 import NavigationMenu from './Components/NavigationMenu';
 
 // import AragonUILogo from './aragonui-logo.png';
@@ -9,7 +7,6 @@ import NavigationMenu from './Components/NavigationMenu';
 function App() {
 
   return (
-    // <DecoderRawTransaction />
     <NavigationMenu />
   );
 }
