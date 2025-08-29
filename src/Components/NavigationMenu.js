@@ -11,7 +11,6 @@ import React from 'react';
 
 import RawTransactionDecoder from './RawTransactionDecoder.js';
 import TransactionInputDataDecoder from './TransactionInputDataDecoder.js';
-import BaseTxDecoder from './BaseTxDecoder.js';
 
 const { Header, Sider } = Layout;
 
@@ -44,13 +43,11 @@ export default function NavigationMenu() {
     "TransactionSendOffline": "TransactionSendOffline",
     "RawTransactionDecoder": "RawTransactionDecoder",
     "TransactionInputDataDecoder": "TransactionInputDataDecoder",
-    "BaseTxDecoder": "BaseTxDecoder",
   }
 
   const pageInfoDict = {
     "RawTransactionDecoder": <RawTransactionDecoder />,
     "TransactionInputDataDecoder": <TransactionInputDataDecoder />,
-    "BaseTxDecoder": <BaseTxDecoder />,
   }
 
   const onClick = ({ item, key, keyPath, domEvent }) => {
@@ -76,7 +73,6 @@ export default function NavigationMenu() {
       getItem('Decode', keyDict.TransactionDecode, <TransactionOutlined />, [
         getItem("RawData", keyDict.RawTransactionDecoder, <SettingOutlined />),
         getItem("InputData", keyDict.TransactionInputDataDecoder, <SettingOutlined />),
-        getItem("schema", keyDict.BaseTxDecoder, <SettingOutlined />),
       ]),
     ]),
     getItem(
