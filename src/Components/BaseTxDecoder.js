@@ -4,6 +4,7 @@ import {
   Input,
   Flex,
 } from 'antd';
+import { ethers } from 'ethers';
 import { RetweetOutlined } from '@ant-design/icons';
 
 
@@ -95,6 +96,15 @@ export function convertToString(obj) {
     return "null";
   }
 
+  // process String
+  if (typeof obj === 'string') {
+    return obj;
+  }
+  // process ethers.Result (Tuple)
+  if (obj instanceof ethers.Result) {
+    const ret = JSON.stringify(obj.toArray().map(item => convertToString(item)));
+	  return ret;
+  }
   // process Array
   if (Array.isArray(obj)) {
     return JSON.stringify(obj.map(item => convertToString(item)));
