@@ -102,8 +102,7 @@ export function convertToString(obj) {
   }
   // process ethers.Result (Tuple)
   if (obj instanceof ethers.Result) {
-    const ret = JSON.stringify(obj.toArray().map(item => convertToString(item)));
-	  return ret;
+    return JSON.stringify(obj.toArray().map(item => convertToString(item)));
   }
   // process Array
   if (Array.isArray(obj)) {
@@ -124,6 +123,10 @@ export function convertToString(obj) {
   if (typeof obj === 'number') {
     return obj.toString(10);
   }
+  // process Boolean
+  if (typeof obj === 'boolean') {
+    return obj.toString();
+  }
 
   // process Object
   const result = {};
@@ -134,6 +137,8 @@ export function convertToString(obj) {
       result[key] = value.toString('hex');
     } else if (typeof value === 'object' && value !== null) {
       result[key] = convertToString(value);
+    } else if (typeof value === 'boolean') {
+      result[key] = value.toString();
     } else {
       result[key] = value;
     }
